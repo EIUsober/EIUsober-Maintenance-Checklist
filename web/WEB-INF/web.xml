@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <servlet>
+        <servlet-name>MainControl</servlet-name>
+        <servlet-class>control.MainControl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginControl</servlet-name>
+        <servlet-class>control.LoginControl</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ManageControl</servlet-name>
+        <servlet-class>control.ManageControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainControl</servlet-name>
+        <url-pattern>/MainControl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginControl</servlet-name>
+        <url-pattern>/LoginControl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ManageControl</servlet-name>
+        <url-pattern>/ManageControl</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>HomePage.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
