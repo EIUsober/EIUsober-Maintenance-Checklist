@@ -255,6 +255,7 @@
         </style>
     </head>
     <body>
+        <p class="${message==null ? " ": "alert-success alert" }" style="size: 30px">${message}</p>
         <p class="${ticketMessage==null ? " ": "alert-success alert" }" style="size: 30px">${ticketMessage}</p>
         <div class="container-xl">
             <div class="table-responsive">
@@ -359,12 +360,16 @@
                             </div>
                             <div class="form-group">
                                 <label>Department</label>
-                                <input type="text" class="form-control" required name="department">
+                                <input type="text" class="form-control" value="${account.getDepartment()}" name="department">
                             </div>
                             <div class="form-group">
                                 <label>Location</label>
                                 <input type="text" class="form-control" required name="location">
-                            </div>					
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" class="form-control" required name="category">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

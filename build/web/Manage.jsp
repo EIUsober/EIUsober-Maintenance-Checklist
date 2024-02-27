@@ -259,9 +259,10 @@
                 font-weight: normal;
             }
         </style>
-        
+
     </head>
     <body>
+        <p class="${message2==null ? " ": "alert-danger alert" }" style="size: 30px">${message2}</p>
         <p class="${message==null ? " ": "alert-success alert" }" style="size: 30px">${message}</p>
         <div class="container-xl">
             <div class="table-responsive">
@@ -369,7 +370,11 @@
                             <div class="form-group">
                                 <label>Location</label>
                                 <input type="text" class="form-control" required name="location">
-                            </div>					
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <input type="text" class="form-control" required name="category">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

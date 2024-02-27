@@ -49,6 +49,12 @@
                     <input class="form-control" type="text" value="${m.getLocation()}" name="location"/>
                 </div>
             </div>
+                <div class="form-group row">
+                <label class="col-lg-3 col-form-label form-control-label">Category</label>
+                <div class="col-lg-9">
+                    <input class="form-control" type="text" value="${m.getCategory()}" name="category"/>
+                </div>
+            </div>
             <div class="form-group row">
                 <label class="col-lg-3 col-form-label form-control-label"></label>
                 <div class="col-lg-9">

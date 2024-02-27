@@ -8,6 +8,7 @@ import dao.LoginDAO;
 import dao.MachineDAO;
 import dao.TicketDAO;
 import entity.Account;
+import entity.CategoryChecklist;
 import entity.Machine;
 import entity.Ticket;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -142,7 +144,7 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_d = request.getParameter("checklist_d");
+                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -150,10 +152,14 @@ public class ManageControl extends HttpServlet {
                 String remark_5 = request.getParameter("remark5");
                 String remark_6 = request.getParameter("remark6");
                 String remark_7 = request.getParameter("remark7");
-                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_d, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7);
-                machineDAO.addMachine(machine);
-                request.setAttribute("message", "Add Successful!");
+                String category = request.getParameter("category");
+                List<Machine> listCa;
 
+                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
+                machineDAO.addMachine(machine);
+                listCa = machineDAO.getAllCategory();
+                request.setAttribute("message", "Add Successful!");
+                request.setAttribute("listC", listCa);
                 target = "ManageControl?mode=view";
 
             }
@@ -169,7 +175,7 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_d = request.getParameter("checklist_d");
+                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -177,10 +183,14 @@ public class ManageControl extends HttpServlet {
                 String remark_5 = request.getParameter("remark5");
                 String remark_6 = request.getParameter("remark6");
                 String remark_7 = request.getParameter("remark7");
-                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_d, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7);
-                machineDAO.addMachine(machine);
-                request.setAttribute("message", "Add Successful!");
+                String category = request.getParameter("category");
+                List<Machine> listCa;
 
+                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
+                machineDAO.addMachine(machine);
+                listCa = machineDAO.getAllCategory();
+                request.setAttribute("message", "Add Successful!");
+                request.setAttribute("listC", listCa);
                 target = "ManageControl?mode=viewByDepartment";
 
             }
@@ -202,7 +212,7 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_d = request.getParameter("checklist_d");
+                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -210,7 +220,9 @@ public class ManageControl extends HttpServlet {
                 String remark_5 = request.getParameter("remark5");
                 String remark_6 = request.getParameter("remark6");
                 String remark_7 = request.getParameter("remark7");
-                Machine machine = new Machine(edit_name, edit_assetNo, edit_department, edit_location, edit_checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7,checklist_d, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7);
+                String category = request.getParameter("category");
+
+                Machine machine = new Machine(edit_name, edit_assetNo, edit_department, edit_location, edit_checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
                 machineDAO.editMachine(machine);
                 target = "ManageControl?mode=view";
             }
@@ -219,6 +231,7 @@ public class ManageControl extends HttpServlet {
                 Machine machines = machineDAO.getMachineByAssetNo(assetNo);
                 machineDAO.deleteMachine(assetNo);
                 request.setAttribute("machines", machines);
+                request.setAttribute("message2", "Delete Successful!");
                 target = "ManageControl?mode=view";
             }
             case "viewByDepartment" -> {

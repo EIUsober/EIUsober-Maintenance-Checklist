@@ -21,7 +21,7 @@ public class Machine {
     private String checklist_5;
     private String checklist_6;
     private String checklist_7;
-    private String checklist_d;
+    private String checklist_8;
     private String remark_1;
     private String remark_2;
     private String remark_3;
@@ -29,8 +29,9 @@ public class Machine {
     private String remark_5;
     private String remark_6;
     private String remark_7;
+    private String category;
 
-    public Machine(String name, String assetNo, String department, String location, String checklist_1, String checklist_2, String checklist_3, String checklist_4, String checklist_5, String checklist_6, String checklist_7, String checklist_d, String remark_1, String remark_2, String remark_3, String remark_4, String remark_5, String remark_6, String remark_7) {
+    public Machine(String name, String assetNo, String department, String location, String checklist_1, String checklist_2, String checklist_3, String checklist_4, String checklist_5, String checklist_6, String checklist_7, String checklist_8, String remark_1, String remark_2, String remark_3, String remark_4, String remark_5, String remark_6, String remark_7, String category) {
         this.name = name;
         this.assetNo = assetNo;
         this.department = department;
@@ -42,7 +43,7 @@ public class Machine {
         this.checklist_5 = checklist_5;
         this.checklist_6 = checklist_6;
         this.checklist_7 = checklist_7;
-        this.checklist_d = checklist_d;
+        this.checklist_8 = checklist_8;
         this.remark_1 = remark_1;
         this.remark_2 = remark_2;
         this.remark_3 = remark_3;
@@ -50,19 +51,28 @@ public class Machine {
         this.remark_5 = remark_5;
         this.remark_6 = remark_6;
         this.remark_7 = remark_7;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getChecklist_d() {
-        return checklist_d;
+        return checklist_8;
     }
 
     public void setChecklist_d(String checklist_d) {
-        this.checklist_d = checklist_d;
+        this.checklist_8 = checklist_d;
     }
 
     @Override
     public String toString() {
-        return "Machine{" + "name=" + name + ", assetNo=" + assetNo + ", department=" + department + ", location=" + location + ", checklist_1=" + checklist_1 + ", checklist_2=" + checklist_2 + ", checklist_3=" + checklist_3 + ", checklist_4=" + checklist_4 + ", checklist_5=" + checklist_5 + ", checklist_6=" + checklist_6 + ", checklist_7=" + checklist_7 + ", checklist_d=" + checklist_d + ", remark_1=" + remark_1 + ", remark_2=" + remark_2 + ", remark_3=" + remark_3 + ", remark_4=" + remark_4 + ", remark_5=" + remark_5 + ", remark_6=" + remark_6 + ", remark_7=" + remark_7 + '}';
+        return "Machine{" + "name=" + name + ", assetNo=" + assetNo + ", department=" + department + ", location=" + location + ", checklist_1=" + checklist_1 + ", checklist_2=" + checklist_2 + ", checklist_3=" + checklist_3 + ", checklist_4=" + checklist_4 + ", checklist_5=" + checklist_5 + ", checklist_6=" + checklist_6 + ", checklist_7=" + checklist_7 + ", checklist_8=" + checklist_8 + ", remark_1=" + remark_1 + ", remark_2=" + remark_2 + ", remark_3=" + remark_3 + ", remark_4=" + remark_4 + ", remark_5=" + remark_5 + ", remark_6=" + remark_6 + ", remark_7=" + remark_7 + ", category=" + category + '}';
     }
 
     public String getRemark_1() {

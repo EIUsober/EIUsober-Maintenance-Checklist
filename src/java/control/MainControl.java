@@ -7,6 +7,7 @@ package control;
 import dao.CheckListDAO;
 import dao.MachineDAO;
 import entity.Account;
+import entity.CategoryChecklist;
 import entity.History;
 import entity.Machine;
 import entity.Sample;
@@ -52,7 +53,10 @@ public class MainControl extends HttpServlet {
             case "search" -> {
                 String text1 = request.getParameter("search");
                 Machine machine = machineDAO.getMachineByAssetNo(text1);
+                CategoryChecklist machine1 = machineDAO.getChecklistByCategory(machine.getCategory());
                 request.setAttribute("machine", machine);
+                request.setAttribute("categoryChecklist", machine1);
+                System.out.println(machine1);
             }
             case "history" -> {
                 ArrayList<History> listAll = listDAO.getAllHistory();
@@ -104,7 +108,7 @@ public class MainControl extends HttpServlet {
                 target = "ViewSchedule.jsp";
             }
             case "check" -> {
-                String[] remark = new String[7];
+                String[] remark = new String[8];
                 String text = request.getParameter("assetNo");
                 Account account = (Account) session.getAttribute("account");
                 String[] checkboxs = request.getParameterValues("checkedbox");
@@ -121,29 +125,28 @@ public class MainControl extends HttpServlet {
                                 if (checkbox.matches("check" + (i + 1) + "[WMQBAD]")) {
                                     checked[i] += checkbox.charAt(checkbox.length() - 1);
                                 }
+                                if (checkbox.matches("checkedAll")) {
+                                    listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
+                                }
                             }
                         }
                         for (int i = 0; i < checked.length; i++) {
-                            listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
+                            listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
                         }
-
                         for (int i = 0; i < remark.length; i++) {
                             remark[i] = request.getParameter("remark" + (i + 1));
                             if (remark[i] != null) {
                                 listDAO.updateRemark(text, "remark_" + (i + 1), remark[i]);
+//                                listDAO.updateRemarkByCategory(machine.getCategory(), "remark_" + (i + 1), remark[i]);
                             }
                         }
+                        listDAO.insertHistory(machine.getName(), text, date, account.getAccountID(), checked[0],
+                                checked[1], checked[2], checked[3], checked[4],
+                                checked[5], checked[6], checked[7], remark[0], remark[1], remark[2], remark[3],
+                                remark[4], remark[5], remark[6]);
                         for (int i = 0; i < checked.length; i++) {
                             checked[i] = "";
                         }
-                        listDAO.insert(text, date, account.getAccountID(), checked[0],
-                                checked[1], checked[2], checked[3], checked[4],
-                                checked[5], checked[6],checked[7], remark[0], remark[1], remark[2], remark[3],
-                                remark[4], remark[5], remark[6], "Done");
-                        listDAO.insertHistory(machine.getName(), text, date, account.getAccountID(), checked[0],
-                                checked[1], checked[2], checked[3], checked[4],
-                                checked[5], checked[6],checked[7], remark[0], remark[1], remark[2], remark[3],
-                                remark[4], remark[5], remark[6], "Done");
                     }
                 } catch (NullPointerException e) {
                     System.out.println(e);
