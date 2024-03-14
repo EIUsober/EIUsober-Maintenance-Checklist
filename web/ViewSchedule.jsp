@@ -157,7 +157,7 @@
                     <!-- Workweek columns -->
                     <td style="padding: 0px"><input readonly="" style="height: 62px;border: white; margin-left: 5px" type="text" name="remark7" value=${machine.getRemark_7()}></td>
                 </tr>      
-                <tr><button class="btn btn-success" onclick="addRow()">+</button></tr>
+<!--                <tr><button class="btn btn-success" onclick="addRow()">+</button></tr>-->
 
                 <!-- Add more rows as needed -->
             </table>

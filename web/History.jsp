@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Schedule</title>
+        <title>History</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="Colo Shop Template">
@@ -22,51 +22,13 @@
         <link rel="stylesheet"  href="View/styles/responsive.css">
         <link rel="stylesheet" href="View/styles/scanner.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <style>
-            .pagination {
-                float: right;
-                margin: 0 0 5px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 30px;
-                min-height: 30px;
-                color: #999;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
-                text-align: center;
-                padding: 0 6px;
-            }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
-            .hint-text {
-                float: left;
-                margin-top: 10px;
-                font-size: 13px;
-            }
-        </style>
+        <link rel="stylesheet" href="View/styles/paging.css">
     </head>
     <body>
         <div class="container" style="text-align: center; margin-top: 30px">
             <h2>History</h2>
             <form action="MainControl?mode=history" method="post">
-                <input style="max-height: 30px; min-width: 60px;" type="month" id="start" name="month" min="2024-01" max="2030-12" value="${month}"/>
+                <input style="max-height: 30px; min-width: 60px;" type="month" id="start" name="month" min="2024-01" max="2024-12" value="${month}"/>
                 <button style="max-height: 30px; border: none; border-radius: 5px; width: 70px" type="submit" class="btn-success">Search</button>
             </form>
         </div>
@@ -96,6 +58,7 @@
                         </tbody>
                     </c:forEach>
                 </table>
+                <a href="ManageControl?mode=schedule">< Back to Schedule</a>
             </div>
         </c:if>
         <c:if test="${listH != null}">

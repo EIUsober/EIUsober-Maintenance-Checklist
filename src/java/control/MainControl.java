@@ -48,6 +48,7 @@ public class MainControl extends HttpServlet {
         LocalDate date = java.time.LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM");
         String month = request.getParameter("month");
+        Account account = (Account) session.getAttribute("account");
 
         switch (mode) {
             case "search" -> {
@@ -56,43 +57,85 @@ public class MainControl extends HttpServlet {
                 CategoryChecklist machine1 = machineDAO.getChecklistByCategory(machine.getCategory());
                 request.setAttribute("machine", machine);
                 request.setAttribute("categoryChecklist", machine1);
-                System.out.println(machine1);
+            }
+            case "recentHistory" -> {
+                ArrayList<History> listR = listDAO.getRecentHistory();
+                request.setAttribute("listR", listR);
+
+                target = "Manage.jsp";
             }
             case "history" -> {
-                ArrayList<History> listAll = listDAO.getAllHistory();
-                ArrayList<History> list = listDAO.getHistoryByMonth(month);
-                request.setAttribute("listAll", listAll);
-                request.setAttribute("listH", list);
-
+                if (month == null) {
+                    ArrayList<History> listAll = listDAO.getAllHistory();
+                    request.setAttribute("listAll", listAll);
+                } else {
+                    ArrayList<History> list = listDAO.getHistoryByMonth(month);
+                    request.setAttribute("listH", list);
+                }
                 target = "History.jsp";
             }
-            case "viewSchedule" -> {
+            case "updateScheduleStatus" -> {
+                String id = request.getParameter("id");
+                listDAO.updateScheduleStatus(id);
 
+                target = "StaffViewSchedule.jsp";
+            }
+            case "viewScheduleByStaff" -> {
+                account = (Account) session.getAttribute("account");
+                ArrayList<Sample> listScheduleStaff = listDAO.getScheduleByStaff(account.getAccountID());
+                request.setAttribute("listStaff", listScheduleStaff);
+                target = "StaffViewSchedule.jsp";
+            }
+            case "viewSchedule3" -> {
+                ArrayList<Sample> listHis3 = listDAO.getHistorySchedule3(month);
+                request.setAttribute("listHis3", listHis3);
+                target = "MainControl?mode=viewSchedule";
+                request.setAttribute("month", month);
+            }
+            case "updateSchedule3Execute" -> {
+                String id = request.getParameter("id");
+                String staffID = request.getParameter("staffID");
+                listDAO.updateSchedule3Execute(staffID, id, date);
+                target = "Schedule.jsp";
+            }
+            case "updateScheduleExecute" -> {
+                String id = request.getParameter("id");
+                String staffID = request.getParameter("staffID");
+                listDAO.updateScheduleExecute(staffID, id, month);
+                target = "Schedule.jsp";
+            }
+            case "viewScheduleByMonth" -> {
+                ArrayList<Sample> listHis3 = listDAO.getHistorySchedule3(month);
+
+                ArrayList<Sample> listSamp = listDAO.getSampleSchedule();
+                ArrayList<Sample> listHis = listDAO.getHistorySchedule(month);
+                ArrayList<Sample> listD = listDAO.getDoneMachine();
+                request.setAttribute("listHis", listHis);
+                request.setAttribute("listSamp", listSamp);
+                request.setAttribute("month", month);
+                request.setAttribute("listD", listD);
+                request.setAttribute("listHis3", listHis3);
+
+                target = "MainControl?mode=viewSchedule";
+            }
+            case "viewSchedule" -> {
                 ArrayList<History> list = listDAO.getHistoryByMonth(month);
                 ArrayList<History> listAll = listDAO.getAllHistory();
-                ArrayList<History> listD = listDAO.getDoneMachine(month);
+                ArrayList<Sample> listD = listDAO.getDoneMachine();
                 ArrayList<History> listUD = listDAO.getUnDoneMachine();
                 ArrayList<Sample> listSamp = listDAO.getSampleSchedule();
-                int count = listSamp.size();
-                int pageSize = 10;
-                int endPage = 0;
-                endPage = count / pageSize;
-                if (count % pageSize != 0) {
-                    endPage++;
-                }
-                request.setAttribute("endPage", endPage);
+                ArrayList<Sample> listDone3 = listDAO.getScheduleDone3();
+                request.setAttribute("done3", listDone3);
                 request.setAttribute("listH", list);
                 request.setAttribute("listSamp", listSamp);
                 request.setAttribute("listAll", listAll);
                 request.setAttribute("listD", listD);
                 request.setAttribute("listUD", listUD);
                 request.setAttribute("month", month);
-
                 target = "Schedule.jsp";
             }
             case "ViewDoneMachine" -> {
-                month = date.format(formatter);
-                ArrayList<History> listD = listDAO.getDoneMachine(month);
+                ArrayList<Sample> listD = listDAO.getDoneMachine();
                 request.setAttribute("listD", listD);
                 target = "DoneList.jsp";
             }
@@ -108,11 +151,11 @@ public class MainControl extends HttpServlet {
                 target = "ViewSchedule.jsp";
             }
             case "check" -> {
-                String[] remark = new String[8];
+                String[] remark = new String[7];
                 String text = request.getParameter("assetNo");
-                Account account = (Account) session.getAttribute("account");
+                account = (Account) session.getAttribute("account");
                 String[] checkboxs = request.getParameterValues("checkedbox");
-                String[] checked = new String[8];
+                String[] checked = new String[7];
                 for (int i = 0; i < checked.length; i++) {
                     checked[i] = "";
                 }
@@ -131,18 +174,18 @@ public class MainControl extends HttpServlet {
                             }
                         }
                         for (int i = 0; i < checked.length; i++) {
-                            listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
+                            listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
+//                            listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
                         }
                         for (int i = 0; i < remark.length; i++) {
                             remark[i] = request.getParameter("remark" + (i + 1));
                             if (remark[i] != null) {
-                                listDAO.updateRemark(text, "remark_" + (i + 1), remark[i]);
-//                                listDAO.updateRemarkByCategory(machine.getCategory(), "remark_" + (i + 1), remark[i]);
+                                listDAO.updateRemarkHistory(text, "remark_" + (i + 1), remark[i]);
                             }
                         }
                         listDAO.insertHistory(machine.getName(), text, date, account.getAccountID(), checked[0],
                                 checked[1], checked[2], checked[3], checked[4],
-                                checked[5], checked[6], checked[7], remark[0], remark[1], remark[2], remark[3],
+                                checked[5], checked[6], remark[0], remark[1], remark[2], remark[3],
                                 remark[4], remark[5], remark[6]);
                         for (int i = 0; i < checked.length; i++) {
                             checked[i] = "";

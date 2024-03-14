@@ -27,9 +27,69 @@ public class TicketDAO {
 
     public TicketDAO() {
     }
-public ArrayList<Account> getAllAccount() {
+    
+    public ArrayList<Ticket> getTotalUndone() {
+        ArrayList<Ticket> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM ticket where status != 'Done'";
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery(query);
+            while (rs.next()) {
+                Ticket ticket = new Ticket(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+                list.add(ticket);
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+     public ArrayList<Ticket> getUndone(String staffID) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM ticket where status != 'Done' and maintenance = '"+staffID+"'";
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery(query);
+            while (rs.next()) {
+                Ticket ticket = new Ticket(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+                list.add(ticket);
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public void deleteTicket(String id) {
+        String query = "delete from ticket where ticket_id = '" + id + "'";
+        try {
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public ArrayList<Account> getAllAccount() {
         ArrayList<Account> list = new ArrayList<>();
-        String query = "select * from account_tb where active = '1'";
+        String query = "select * from account_tb";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -53,9 +113,10 @@ public ArrayList<Account> getAllAccount() {
         }
         return list;
     }
-    public Ticket viewDescription(String id) {
+
+    public Ticket getTicket(String id) {
         try {
-            String query = "select description from ticket where ticket_id = '" + id + "'";
+            String query = "select * from ticket where ticket_id = '" + id + "'";
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery(query);
@@ -74,10 +135,34 @@ public ArrayList<Account> getAllAccount() {
         }
         return null;
     }
-    
+
+    public ArrayList<Ticket> viewTicketByDepartment(String id) {
+        ArrayList<Ticket> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM ticket where staff_name = '" + id + "'";
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery(query);
+            while (rs.next()) {
+                Ticket ticket = new Ticket(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+                list.add(ticket);
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
     public ArrayList<Ticket> getTicketByStaff(String staff) {
         ArrayList<Ticket> list = new ArrayList<>();
-        String query = "select * from ticket where maintenance = '"+ staff +"'";
+        String query = "select * from ticket where maintenance = '" + staff + "'";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -98,7 +183,7 @@ public ArrayList<Account> getAllAccount() {
         }
         return list;
     }
-    
+
     public ArrayList<Ticket> getAllTicket() {
         ArrayList<Ticket> list = new ArrayList<>();
         String query = "select * from ticket";
@@ -123,9 +208,20 @@ public ArrayList<Account> getAllAccount() {
         }
         return list;
     }
-    
+
+    public void editTicket(Ticket t) {
+        String query = "update ticket set description = '" + t.getDescription() + "' where ticket_id = '" + t.getTicketID() + "'";
+        try {
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void updateExecute(String staff, String tickID) {
-        String query = "update ticket set maintenance = '"+staff+"' where ticket_id = '"+tickID+"'";
+        String query = "update ticket set maintenance = '" + staff + "' where ticket_id = '" + tickID + "'";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -134,9 +230,9 @@ public ArrayList<Account> getAllAccount() {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public void updateStatus(String status, String tickID) {
-        String query = "update ticket set status = '"+status+"' where ticket_id = '"+tickID+"'";
+        String query = "update ticket set status = '" + status + "' where ticket_id = '" + tickID + "'";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -145,13 +241,12 @@ public ArrayList<Account> getAllAccount() {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public void addTicket(Ticket t) {
-        String query = "insert into ticket (staff_name, date, maintenance, status, description) "
-                + "values ('" + t.getStaffID() + "','" + t.getDateTicket() + "','Select Staff',"
+        String query = "insert into ticket (staff_name, date, status, description) "
+                + "values ('" + t.getStaffID() + "','" + t.getDateTicket() + "',"
                 + "'Undone','" + t.getDescription() + "')";
         try {
-            System.out.println(query);
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             ps.executeUpdate();

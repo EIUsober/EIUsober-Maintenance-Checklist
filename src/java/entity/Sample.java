@@ -4,6 +4,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Admin
@@ -13,12 +15,32 @@ public class Sample {
     private String name;
     private String assetNo;
     private String status;
+    private String assigned;
+    private Date date;
 
-    public Sample(int id, String name, String assetNo, String status) {
+    public Sample(int id, String name, String assetNo, String status, String assigned, Date date) {
         this.id = id;
         this.name = name;
         this.assetNo = assetNo;
         this.status = status;
+        this.assigned = assigned;
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(String assigned) {
+        this.assigned = assigned;
     }
 
     public int getId() {

@@ -49,8 +49,7 @@ public class MachineDAO {
                         rs.getString(13),
                         rs.getString(14),
                         rs.getString(15),
-                        rs.getString(16),
-                        rs.getInt(17)
+                        rs.getInt(16)
                 );
             }
             con.close();
@@ -86,8 +85,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
+                        rs.getString(19)
                 );
                 list.add(category);
             }
@@ -124,8 +122,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
+                        rs.getString(19)
                 );
             }
             con.close();
@@ -138,7 +135,7 @@ public class MachineDAO {
     public ArrayList<Machine> get1stPageMachine() {
         ArrayList<Machine> list = new ArrayList<>();
         try {
-            String query = "select * from machine LIMIT 10";
+            String query = "select * from machine LIMIT 5";
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery(query);
@@ -161,9 +158,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();
@@ -201,9 +196,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();
@@ -239,9 +232,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();
@@ -277,9 +268,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();
@@ -301,7 +290,7 @@ public class MachineDAO {
     }
 
     public void editMachine(Machine m) {
-        String query = "update machine set machine_name = '" + m.getName() + "', asset_no = '" + m.getAssetNo() + "', department = '" + m.getDepartment() + "', location = '" + m.getLocation() + "' where asset_no = '" + m.getAssetNo() + "';";
+        String query = "update machine set machine_name = '" + m.getName() + "', asset_no = '" + m.getAssetNo() + "', department = '" + m.getDepartment() + "', location = '" + m.getLocation() + "', category = '"+m.getCategory()+"' where asset_no = '" + m.getAssetNo() + "';";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -324,7 +313,7 @@ public class MachineDAO {
 
     public ArrayList<Machine> searchByName(String name) {
         ArrayList<Machine> list = new ArrayList<>();
-        String query = "select * from machine where machine_name like '%" + name + "%'";
+        String query = "select * from machine where machine_name like '%" + name + "%' or asset_no like '%" + name + "%' or department like '%" + name + "%'";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
@@ -348,9 +337,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();
@@ -362,7 +349,7 @@ public class MachineDAO {
 
     public ArrayList<Machine> searchByStaff(String name, String department) {
         ArrayList<Machine> list = new ArrayList<>();
-        String query = "select * from machine where department = '" + department + "' and machine_name like '%" + name + "%'";
+        String query = "select * from machine where (machine_name like '%" + name + "%' or asset_no like '%" + name + "%') and  department = '" + department + "'";
         try {
             System.out.println(query);
             con = DBContext.getConnection();
@@ -387,9 +374,7 @@ public class MachineDAO {
                         rs.getString(16),
                         rs.getString(17),
                         rs.getString(18),
-                        rs.getString(19),
-                        rs.getString(20)
-                );
+                        rs.getString(19)                );
                 list.add(machine);
             }
             con.close();

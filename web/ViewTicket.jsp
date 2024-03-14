@@ -25,79 +25,28 @@
         <link rel="stylesheet"  href="View/styles/responsive.css">
         <link rel="stylesheet" href="View/styles/scanner.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <script>
-            $(document).ready(function () {
-                // Activate tooltip
-                $('[data-toggle="tooltip"]').tooltip();
-                // Select/Deselect checkboxes
-                var checkbox = $('table tbody input[type="checkbox"]');
-                $("#selectAll").click(function () {
-                    if (this.checked) {
-                        checkbox.each(function () {
-                            this.checked = true;
-                        });
-                    } else {
-                        checkbox.each(function () {
-                            this.checked = false;
-                        });
-                    }
-                });
-                checkbox.click(function () {
-                    if (!this.checked) {
-                        $("#selectAll").prop("checked", false);
-                    }
-                });
-            });
-            $(document).ready(function () {
-                $(".dropdown-menu a").click(function () {
-                    var selectedItem = $(this).text();
-                    $("#selectedItem").val(selectedItem);
-                });
-            });
-        </script>
+        <link rel="stylesheet" href="View/styles/paging.css">
         <style>
-            .pagination {
-                float: right;
-                margin: 0 0 5px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 30px;
-                min-height: 30px;
-                color: #999;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
+            .numberCircle {
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                padding: 4px;
+                background: red;
+                border: 2px solid #666;
+                color: white;
                 text-align: center;
-                padding: 0 6px;
+                font: 15px Arial, sans-serif;
             }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
-            .hint-text {
-                float: left;
-                margin-top: 10px;
-                font-size: 13px;
-            }
+
         </style>
     </head>
     <body>
         <div class="container">
             <h2 style="text-align: center; margin-top: 20px">Ticket</h2>
+            <c:if test="${account.getIsAdmin() != 1}">
+                <button class="btn btn-success"><a href="ManageControl?mode=viewTask" style="color: white">Your Task </a><span class="numberCircle">${u}</span></button>
+            </c:if>
             <form action="ManageControl?mode=viewTicket" method="get">
                 <table class="table table-hover">
                     <thead>
@@ -119,8 +68,10 @@
                                 <td>
                                     <div class="dropdown" style="display: flex; width: 170px">
                                         <input type="text" class="form-control" id="selectedItem" placeholder="${l.getMaintenance()}" disabled="">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        </button>
+                                        <c:if test="${account.getIsAdmin() == 1}" >
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                        </c:if>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=I0001" onclick="updateSuccess()">I0001</a>
                                             <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=I0002" onclick="updateSuccess()">I0002</a>
@@ -129,13 +80,26 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>${l.getStatus()}</td>
+                                <c:if test="${l.getStatus().equals('Undone')}">
+                                    <td style="background-color: lightcoral">${l.getStatus()}</td>
+                                </c:if>
+                                <c:if test="${l.getStatus().equals('Done')}">
+                                    <td style="background-color: lightgreen">${l.getStatus()}</td>
+                                </c:if>
+                                <c:if test="${l.getStatus().equals('Executing')}">
+                                    <td style="background-color: yellow">${l.getStatus()}</td>
+                                </c:if>
                                 <td>${l.getDescription()}</td>
-                        </tr>
-                    </c:forEach>
+                            </tr>
+                        </c:forEach>
                     </tbody>    
                 </table>
-                <a href="ManageControl?mode=view" class="btn btn-info"> Cancel</a>
+                <c:if test="${account.getIsIT() == 0}">
+                    <a href="ManageControl?mode=view" class="btn btn-info"> Cancel</a>
+                </c:if>
+                <c:if test="${account.getIsAdmin() == 0}">
+                    <a href="ManageControl?mode=viewByDepartment" class="btn btn-info"> Cancel</a>
+                </c:if>
                 <a href="ManageControl?mode=viewTicket" class="btn btn-success"> Refresh</a>
             </form>
         </div>

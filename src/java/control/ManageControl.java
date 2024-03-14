@@ -4,11 +4,13 @@
  */
 package control;
 
+import dao.CheckListDAO;
 import dao.LoginDAO;
 import dao.MachineDAO;
 import dao.TicketDAO;
 import entity.Account;
 import entity.CategoryChecklist;
+import entity.History;
 import entity.Machine;
 import entity.Ticket;
 import java.io.IOException;
@@ -52,13 +54,17 @@ public class ManageControl extends HttpServlet {
         MachineDAO machineDAO = new MachineDAO();
         LoginDAO loginDAO = new LoginDAO();
         HttpSession session = request.getSession();
-        LocalDateTime localdate = java.time.LocalDateTime.now();
+        LocalDate localdate = java.time.LocalDate.now();
         Account a = (Account) session.getAttribute("account");
         Account account = loginDAO.getAccountDepartment(a);
         ArrayList<Machine> list;
+        ArrayList<Machine> listAll;
         ArrayList<Account> listA;
         ArrayList<Ticket> tickets;
+        ArrayList<Ticket> undone;
+        ArrayList<Ticket> staffTickets;
         ArrayList<Ticket> tasks;
+        CheckListDAO listDAO = new CheckListDAO();
         TicketDAO ticketDAO = new TicketDAO();
         tickets = ticketDAO.getAllTicket();
         list = machineDAO.getAllMachine();
@@ -103,7 +109,14 @@ public class ManageControl extends HttpServlet {
                 ticketDAO.updateStatus(status, tickid);
                 target = "Implementor.jsp";
             }
+            case "staffViewTicket" -> {
+                staffTickets = ticketDAO.viewTicketByDepartment(a.getAccountID());
+                session.setAttribute("listT", staffTickets);
+                target = "StaffViewTicket.jsp";
+            }
             case "viewTicket" -> {
+                undone = ticketDAO.getUndone(a.getAccountID());
+                request.setAttribute("u", undone.size());
                 session.setAttribute("listT", tickets);
                 target = "ViewTicket.jsp";
             }
@@ -127,11 +140,6 @@ public class ManageControl extends HttpServlet {
                 request.setAttribute("machine", list);
                 target = "Manage.jsp";
             }
-            case "view" -> {
-                list = machineDAO.get1stPageMachine();
-                request.setAttribute("machine", list);
-                target = "Manage.jsp";
-            }
             case "add" -> {
                 String name = request.getParameter("name");
                 String assetNo = request.getParameter("assetNo");
@@ -144,7 +152,6 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -155,7 +162,7 @@ public class ManageControl extends HttpServlet {
                 String category = request.getParameter("category");
                 List<Machine> listCa;
 
-                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
+                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
                 machineDAO.addMachine(machine);
                 listCa = machineDAO.getAllCategory();
                 request.setAttribute("message", "Add Successful!");
@@ -175,7 +182,6 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -186,13 +192,40 @@ public class ManageControl extends HttpServlet {
                 String category = request.getParameter("category");
                 List<Machine> listCa;
 
-                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
+                Machine machine = new Machine(name, assetNo, department, location, checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
                 machineDAO.addMachine(machine);
                 listCa = machineDAO.getAllCategory();
                 request.setAttribute("message", "Add Successful!");
                 request.setAttribute("listC", listCa);
                 target = "ManageControl?mode=viewByDepartment";
 
+            }
+            case "editTicket" -> {
+                String id = request.getParameter("id");
+                Ticket t = ticketDAO.getTicket(id);
+                request.setAttribute("t", t);
+                System.out.println(t);
+                target = "EditTicket.jsp";
+            }
+            case "deleteTicket" -> {
+                String id = request.getParameter("id");
+                ticketDAO.deleteTicket(id);
+                request.setAttribute("deleteSuccess", "Deleted Successful!");
+
+                target = "ManageControl?mode=staffViewTicket";
+            }
+            case "editingTicket" -> {
+                String id = request.getParameter("id");
+                String staffID = request.getParameter("staffID");
+                String date = request.getParameter("dateTicket");
+                String maintain = request.getParameter("maintain");
+                String status = request.getParameter("status");
+                String description = request.getParameter("description");
+                Ticket ticket = new Ticket(id, staffID, date, maintain, status, description);
+                ticketDAO.editTicket(ticket);
+                request.setAttribute("editSuccess", "Edited Successful!");
+
+                target = "ManageControl?mode=staffViewTicket";
             }
             case "edit" -> {
                 String assetNo = request.getParameter("assetNo");
@@ -212,7 +245,6 @@ public class ManageControl extends HttpServlet {
                 String checklist_5 = request.getParameter("checklist_5");
                 String checklist_6 = request.getParameter("checklist_6");
                 String checklist_7 = request.getParameter("checklist_7");
-                String checklist_8 = request.getParameter("checklist_8");
                 String remark_1 = request.getParameter("remark1");
                 String remark_2 = request.getParameter("remark2");
                 String remark_3 = request.getParameter("remark3");
@@ -220,10 +252,12 @@ public class ManageControl extends HttpServlet {
                 String remark_5 = request.getParameter("remark5");
                 String remark_6 = request.getParameter("remark6");
                 String remark_7 = request.getParameter("remark7");
-                String category = request.getParameter("category");
+                String edit_category = request.getParameter("category");
 
-                Machine machine = new Machine(edit_name, edit_assetNo, edit_department, edit_location, edit_checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, checklist_8, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, category);
+                Machine machine = new Machine(edit_name, edit_assetNo, edit_department, edit_location, edit_checklist_1, checklist_2, checklist_3, checklist_4, checklist_5, checklist_6, checklist_7, remark_1, remark_2, remark_3, remark_4, remark_5, remark_6, remark_7, edit_category);
                 machineDAO.editMachine(machine);
+                request.setAttribute("editSuccess", "Edited Successful!");
+
                 target = "ManageControl?mode=view";
             }
             case "delete" -> {
@@ -234,9 +268,27 @@ public class ManageControl extends HttpServlet {
                 request.setAttribute("message2", "Delete Successful!");
                 target = "ManageControl?mode=view";
             }
+            case "view" -> {
+                ArrayList<History> listR = listDAO.getRecentHistory();
+                ArrayList<Ticket> ticket = ticketDAO.getTotalUndone();
+                ArrayList<History> list1m = listDAO.get1monthRevenue();
+                ArrayList<History> list2m = listDAO.get2monthRevenue();
+                ArrayList<History> list3m = listDAO.get3monthRevenue();
+                request.setAttribute("month1", list1m);
+                request.setAttribute("month2", list2m);
+                request.setAttribute("month3", list3m);
+                request.setAttribute("tick", ticket);
+                request.setAttribute("listR", listR);
+                list = machineDAO.get1stPageMachine();
+                request.setAttribute("machine", list);
+                target = "Manage.jsp";
+            }
             case "viewByDepartment" -> {
+                undone = ticketDAO.getUndone(a.getAccountID());
+                request.setAttribute("u", undone.size());
                 ArrayList<Machine> listD = machineDAO.getMachineByDepartment(a.getDepartment());
                 request.setAttribute("listD", listD);
+                request.setAttribute("date", localdate);
                 target = "StaffManage.jsp";
             }
             case "StaffViewCheckList" -> {
@@ -256,6 +308,7 @@ public class ManageControl extends HttpServlet {
                 list = machineDAO.searchByName(search);
                 request.setAttribute("value", search);
                 request.setAttribute("listM", list);
+                request.setAttribute("searched", "Not null");
                 target = "Manage.jsp";
             }
             case "searchStaff" -> {
@@ -267,6 +320,12 @@ public class ManageControl extends HttpServlet {
             }
             case "schedule" -> {
                 target = "Schedule.jsp";
+            }
+            case "allMachines" -> {
+                listAll = machineDAO.getAllMachine();
+                request.setAttribute("listAll", listAll);
+
+                target = "AllMachine.jsp";
             }
         }
 

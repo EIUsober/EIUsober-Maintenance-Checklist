@@ -25,45 +25,7 @@
         <link rel="stylesheet"  href="View/styles/responsive.css">
         <link rel="stylesheet" href="View/styles/scanner.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">        
-        <style>
-            .pagination {
-                float: right;
-                margin: 0 0 5px;
-            }
-            .pagination li a {
-                border: none;
-                font-size: 13px;
-                min-width: 30px;
-                min-height: 30px;
-                color: #999;
-                margin: 0 2px;
-                line-height: 30px;
-                border-radius: 2px !important;
-                text-align: center;
-                padding: 0 6px;
-            }
-            .pagination li a:hover {
-                color: #666;
-            }
-            .pagination li.active a, .pagination li.active a.page-link {
-                background: #03A9F4;
-            }
-            .pagination li.active a:hover {
-                background: #0397d6;
-            }
-            .pagination li.disabled i {
-                color: #ccc;
-            }
-            .pagination li i {
-                font-size: 16px;
-                padding-top: 6px
-            }
-            .hint-text {
-                float: left;
-                margin-top: 10px;
-                font-size: 13px;
-            }
-        </style>
+        <link rel="stylesheet" href="View/styles/paging.css">
     </head>
     <body>
         <div class="container">
@@ -99,23 +61,23 @@
                                 </td>
                                 <td>${l.getDescription()}</td>
                             </tr>
-                            </c:forEach>
-                        </tbody>    
-                    </table>
-                    <a href="ManageControl?mode=viewByDepartment" class="btn btn-info"> Cancel</a>
-                    <a href="ManageControl?mode=viewTask" class="btn btn-success"> Refresh</a>
-                </form>
-            </div>
-            <script>
-                function updateStatus() {
-                    if (confirm('Update Success!')) {
-                        window.location.href = 'ManageControl?mode=viewTask';
-                    } else {
-                        return false;
-                    }
+                        </c:forEach>
+                    </tbody>    
+                </table>
+                <a href="ManageControl?mode=viewByDepartment" class="btn btn-info"> Cancel</a>
+                <a href="ManageControl?mode=viewTask" class="btn btn-success"> Refresh</a>
+            </form>
+        </div>
+        <script>
+            function updateStatus() {
+                if (confirm('Update Success!')) {
+                    window.location.href = 'ManageControl?mode=viewTask';
+                } else {
+                    return false;
                 }
-            </script>
+            }
+        </script>
 
-        </body>
+    </body>
 
-    </html>
+</html>
