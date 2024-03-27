@@ -23,3 +23,5 @@ Implement Guideline
 9. Right click "Libraries" choose "Add JAR/Folder" then choose the file you are browsed on step 7.
    Right click "Libraries" one more time, choose "Add Library" then find and select "JSTL 1.2.1"
 10. Run project
+
+Documentation: [https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing](url) 
