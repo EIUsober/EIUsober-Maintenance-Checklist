@@ -22,7 +22,7 @@ Implement Guideline
 8. Import project in Netbeans
 9. Right click "Libraries" choose "Add JAR/Folder" then choose the file you are browsed on step 7.
    Right click "Libraries" one more time, choose "Add Library" then find and select "JSTL 1.2.1"
-10. Download database data [https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing](https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing). Extract all tables to MySQL workbench
+10. Download database data [https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing](https://drive.google.com/drive/folders/1_3y_PVG2N7Go7jsKFCrZI05P3J0Mr1Vd?usp=drive_link). Extract all tables to MySQL workbench
 11. Run project
 
 Documentation: [https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing](https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing)
