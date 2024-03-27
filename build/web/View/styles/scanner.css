@@ -1,0 +1,35 @@
+main {
+justify-content: center;
+align-items: center;
+}
+#reader {
+width: 600px;
+}
+#result {
+text-align: center;
+font-size: 1.5rem;
+color: white;
+margin: 20px 20px 20px 20px;
+}
+.main-slider{
+	width: 1100px;
+	display: flex;
+	align-items: center;
+}
+.main-slider h4{
+	margin: 10px 20px 0px 20px;
+	color: red;
+}
+#input-code{
+	height: 45px;
+	width: 400px;
+}
+.table-checklist td {
+    padding: 12px;
+}
+.invisible-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }

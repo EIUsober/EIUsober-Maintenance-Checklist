@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package control;
 
 import dao.CheckListDAO;
@@ -11,6 +7,7 @@ import entity.CategoryChecklist;
 import entity.History;
 import entity.Machine;
 import entity.Sample;
+import entity.Schedule;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -57,6 +54,10 @@ public class MainControl extends HttpServlet {
                 CategoryChecklist machine1 = machineDAO.getChecklistByCategory(machine.getCategory());
                 request.setAttribute("machine", machine);
                 request.setAttribute("categoryChecklist", machine1);
+                listDAO.insertSchedule3(machine.getName(), machine.getAssetNo(), date, account.getAccountID(), machine1.getChecklist_1(), machine1.getChecklist_2(),
+                        machine1.getChecklist_3(), machine1.getChecklist_4(), machine1.getChecklist_5(), machine1.getChecklist_6(),
+                        machine1.getChecklist_7(), machine1.getRemark_1(), machine1.getRemark_2(), machine1.getRemark_3(), machine1.getRemark_4(),
+                        machine1.getRemark_5(), machine1.getRemark_6(), machine1.getRemark_7());
             }
             case "recentHistory" -> {
                 ArrayList<History> listR = listDAO.getRecentHistory();
@@ -87,7 +88,7 @@ public class MainControl extends HttpServlet {
                 target = "StaffViewSchedule.jsp";
             }
             case "viewSchedule3" -> {
-                ArrayList<Sample> listHis3 = listDAO.getHistorySchedule3(month);
+                ArrayList<Schedule> listHis3 = listDAO.getSchedule3(month);
                 request.setAttribute("listHis3", listHis3);
                 target = "MainControl?mode=viewSchedule";
                 request.setAttribute("month", month);
@@ -105,8 +106,7 @@ public class MainControl extends HttpServlet {
                 target = "Schedule.jsp";
             }
             case "viewScheduleByMonth" -> {
-                ArrayList<Sample> listHis3 = listDAO.getHistorySchedule3(month);
-
+                ArrayList<Schedule> listHis3 = listDAO.getSchedule3(month);
                 ArrayList<Sample> listSamp = listDAO.getSampleSchedule();
                 ArrayList<Sample> listHis = listDAO.getHistorySchedule(month);
                 ArrayList<Sample> listD = listDAO.getDoneMachine();
@@ -175,7 +175,9 @@ public class MainControl extends HttpServlet {
                         }
                         for (int i = 0; i < checked.length; i++) {
                             listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
-//                            listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
+                            if (account.getIsAdmin() == 1) {
+                                listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
+                            }
                         }
                         for (int i = 0; i < remark.length; i++) {
                             remark[i] = request.getParameter("remark" + (i + 1));

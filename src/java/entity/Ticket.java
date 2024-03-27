@@ -15,17 +15,37 @@ public class Ticket {
     private String ticketID;
     private String staffID;
     private String dateTicket;
+    private String dateComplete;
     private String maintenance;
     private String status;
     private String description;
+    private String remark;
 
-    public Ticket(String ticketID,String staffID, String dateTicket, String maintenance, String status, String description) {
+    public Ticket(String ticketID,String staffID, String dateTicket,String dateComplete, String maintenance, String status, String description, String remark) {
         this.ticketID = ticketID;
         this.staffID = staffID;
         this.dateTicket = dateTicket;
+        this.dateComplete = dateComplete;
         this.maintenance = maintenance;
         this.status = status;
         this.description = description;
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getDateComplete() {
+        return dateComplete;
+    }
+
+    public void setDateComplete(String dateComplete) {
+        this.dateComplete = dateComplete;
     }
 
     public String getTicketID() {

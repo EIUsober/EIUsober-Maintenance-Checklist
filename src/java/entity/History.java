@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class History {
 
+    private String id;
     private String machineName;
     private String assetNo;
     private Date date;
@@ -32,7 +33,7 @@ public class History {
     private String remark_7;
     private String status;
 
-    public History(String machineName, String assetNo, Date date, String performedBy, String checklist_1, String checklist_2, String checklist_3, String checklist_4, String checklist_5, String checklist_6, String checklist_7, String remark_1, String remark_2, String remark_3, String remark_4, String remark_5, String remark_6, String remark_7, String status) {
+    public History(String machineName, String assetNo, Date date, String performedBy, String checklist_1, String checklist_2, String checklist_3, String checklist_4, String checklist_5, String checklist_6, String checklist_7, String remark_1, String remark_2, String remark_3, String remark_4, String remark_5, String remark_6, String remark_7, String status, String id) {
         this.machineName = machineName;
         this.assetNo = assetNo;
         this.date = date;
@@ -52,6 +53,15 @@ public class History {
         this.remark_6 = remark_6;
         this.remark_7 = remark_7;
         this.status = status;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getStatus() {

@@ -8,6 +8,7 @@ import context.DBContext;
 import entity.Account;
 import entity.CategoryChecklist;
 import entity.Machine;
+import entity.Schedule;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,10 +97,84 @@ public class MachineDAO {
         }
         return list;
     }
-
-    public Machine getMachineByAssetNo(String assetNo) {
+    
+    public Schedule getMachine3ByAssetNo(String assetNo) {
         try {
-            String query = "select * from machine where asset_no = '" + assetNo + "'";
+            String query = "select * from schedule_3 where asset_no = '" + assetNo + "'";
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery(query);
+            while (rs.next()) {
+                return new Schedule(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getDate(7),
+                        rs.getInt(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getString(16),
+                        rs.getString(17),
+                        rs.getString(18),
+                        rs.getString(19),
+                        rs.getString(20),
+                        rs.getString(21),
+                        rs.getString(22),
+                        rs.getString(23)
+                );
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    
+     public Machine getMachineByAssetNo(String asset) {
+        try {
+            String query = "select * from machine where asset_no = '" + asset + "'";
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery(query);
+            while (rs.next()) {
+                return new Machine(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12),
+                        rs.getString(13),
+                        rs.getString(14),
+                        rs.getString(15),
+                        rs.getString(16),
+                        rs.getString(17),
+                        rs.getString(18),
+                        rs.getString(19)
+                );
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Machine getMachineByID(String id) {
+        try {
+            String query = "select * from maintained_history where id = '" + id + "'";
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery(query);
@@ -351,7 +426,6 @@ public class MachineDAO {
         ArrayList<Machine> list = new ArrayList<>();
         String query = "select * from machine where (machine_name like '%" + name + "%' or asset_no like '%" + name + "%') and  department = '" + department + "'";
         try {
-            System.out.println(query);
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery(query);

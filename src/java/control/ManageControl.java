@@ -12,6 +12,7 @@ import entity.Account;
 import entity.CategoryChecklist;
 import entity.History;
 import entity.Machine;
+import entity.Schedule;
 import entity.Ticket;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -91,9 +92,9 @@ public class ManageControl extends HttpServlet {
                 target = "ViewTicket.jsp";
             }
             case "updateStatus" -> {
-                String tickid = request.getParameter("id");
+                String tickid = request.getParameter("ticketID");
                 String status = request.getParameter("status");
-                ticketDAO.updateStatus(status, tickid);
+                ticketDAO.updateStatus(status, tickid, localdate);
                 target = "Implementor.jsp";
             }
             case "viewTask" -> {
@@ -106,7 +107,7 @@ public class ManageControl extends HttpServlet {
                 session.setAttribute("listT", tickets);
                 String tickid = request.getParameter("id");
                 String status = request.getParameter("status");
-                ticketDAO.updateStatus(status, tickid);
+                ticketDAO.updateStatus(status, tickid, localdate);
                 target = "Implementor.jsp";
             }
             case "staffViewTicket" -> {
@@ -127,7 +128,7 @@ public class ManageControl extends HttpServlet {
                 String department = request.getParameter("departmentTicket");
                 String location = request.getParameter("locationTicket");
                 String description = request.getParameter("descriptionTicket");
-                Ticket ticket = new Ticket(id, staffName, date, department, location, description);
+                Ticket ticket = new Ticket(id, staffName, date, "", department, location, description, "");
 
                 ticketDAO.addTicket(ticket);
                 request.setAttribute("ticketMessage", "Add Successful!");
@@ -204,7 +205,6 @@ public class ManageControl extends HttpServlet {
                 String id = request.getParameter("id");
                 Ticket t = ticketDAO.getTicket(id);
                 request.setAttribute("t", t);
-                System.out.println(t);
                 target = "EditTicket.jsp";
             }
             case "deleteTicket" -> {
@@ -214,6 +214,13 @@ public class ManageControl extends HttpServlet {
 
                 target = "ManageControl?mode=staffViewTicket";
             }
+            case "addRemark" -> {
+                String remark = request.getParameter("remark");
+                String id = request.getParameter("ticketID");
+                ticketDAO.addTicketRemark(remark, id);
+                
+                target = "Implementor.jsp";
+            }
             case "editingTicket" -> {
                 String id = request.getParameter("id");
                 String staffID = request.getParameter("staffID");
@@ -221,7 +228,7 @@ public class ManageControl extends HttpServlet {
                 String maintain = request.getParameter("maintain");
                 String status = request.getParameter("status");
                 String description = request.getParameter("description");
-                Ticket ticket = new Ticket(id, staffID, date, maintain, status, description);
+                Ticket ticket = new Ticket(id, staffID, date, "", maintain, status, description, "");
                 ticketDAO.editTicket(ticket);
                 request.setAttribute("editSuccess", "Edited Successful!");
 
@@ -292,14 +299,77 @@ public class ManageControl extends HttpServlet {
                 target = "StaffManage.jsp";
             }
             case "StaffViewCheckList" -> {
-                String text1 = request.getParameter("assetNo");
-                Machine machine = machineDAO.getMachineByAssetNo(text1);
-                request.setAttribute("machine", machine);
+                String text1 = request.getParameter("id");
+                String text = request.getParameter("assetNo");
+                History his = listDAO.getHistoryByID(text1);
+                Machine machine3 = machineDAO.getMachineByAssetNo(text);
+                Machine machine1 = machineDAO.getMachineByID(text1);
+                CategoryChecklist machine2 = machineDAO.getChecklistByCategory(machine3.getCategory());
+                request.setAttribute("his", his);
+                request.setAttribute("machine3", machine3);
+                request.setAttribute("categoryChecklist", machine2);
+                LocalDate date = java.time.LocalDate.now();
+                String[] remark = new String[7];
+                account = (Account) session.getAttribute("account");
+                String[] checkboxs = request.getParameterValues("checkedbox");
+                String[] checked = new String[7];
+                for (int i = 0; i < checked.length; i++) {
+                    checked[i] = "";
+                }
+
+                try {
+                    Schedule machine = machineDAO.getMachine3ByAssetNo(text);
+                    if (checkboxs != null) {
+                        for (String checkbox : checkboxs) {
+                            for (int i = 0; i < checked.length; i++) {
+                                if (checkbox.matches("check" + (i + 1) + "[WMQBAD]")) {
+                                    checked[i] += checkbox.charAt(checkbox.length() - 1);
+                                }
+                                if (checkbox.matches("checkedAll")) {
+                                    listDAO.isChecked3(text, "checklist_" + (i + 1), checked[i]);
+                                    listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
+                                }
+                            }
+                        }
+                        for (int i = 0; i < checked.length; i++) {
+                            listDAO.isChecked3(text, "checklist_" + (i + 1), checked[i]);
+                            listDAO.isChecked(text, "checklist_" + (i + 1), checked[i]);
+//                            listDAO.updateByCategory(machine.getCategory(), "checklist_" + (i + 1), checked[i]);
+                        }
+                        for (int i = 0; i < remark.length; i++) {
+                            remark[i] = request.getParameter("remark" + (i + 1));
+                            if (remark[i] != null) {
+                                listDAO.updateRemark3(text, "remark_" + (i + 1), remark[i]);
+                            }
+                        }
+                        listDAO.insertSchedule3(machine.getName(), text, date, account.getAccountID(), checked[0],
+                                checked[1], checked[2], checked[3], checked[4],
+                                checked[5], checked[6], remark[0], remark[1], remark[2], remark[3],
+                                remark[4], remark[5], remark[6]);
+                        listDAO.insertHistory(machine.getName(), text, date, account.getAccountID(), checked[0],
+                                checked[1], checked[2], checked[3], checked[4],
+                                checked[5], checked[6], remark[0], remark[1], remark[2], remark[3],
+                                remark[4], remark[5], remark[6]);
+                        for (int i = 0; i < checked.length; i++) {
+                            checked[i] = "";
+                        }
+                    }
+                    request.setAttribute("machine", machine);
+                } catch (NullPointerException e) {
+                    System.out.println(e);
+                }
                 target = "ViewCheckList.jsp";
             }
+            case "ViewAssetChecklist" -> {
+                String text = request.getParameter("assetNo");
+                Machine machine3 = machineDAO.getMachineByAssetNo(text);
+                request.setAttribute("machine3", machine3);
+
+                target = "AssetChecklist.jsp";
+            }
             case "StaffViewSchedule" -> {
-                String text1 = request.getParameter("assetNo");
-                Machine machine = machineDAO.getMachineByAssetNo(text1);
+                String text1 = request.getParameter("id");
+                Machine machine = machineDAO.getMachineByID(text1);
                 request.setAttribute("machine", machine);
                 target = "ViewSchedule.jsp";
             }
@@ -309,6 +379,7 @@ public class ManageControl extends HttpServlet {
                 request.setAttribute("value", search);
                 request.setAttribute("listM", list);
                 request.setAttribute("searched", "Not null");
+
                 target = "Manage.jsp";
             }
             case "searchStaff" -> {
@@ -322,9 +393,14 @@ public class ManageControl extends HttpServlet {
                 target = "Schedule.jsp";
             }
             case "allMachines" -> {
+
                 listAll = machineDAO.getAllMachine();
                 request.setAttribute("listAll", listAll);
-
+                String text = request.getParameter("assetNo");
+                Machine machine3 = machineDAO.getMachineByAssetNo(text);
+                list = machineDAO.searchByName(text);
+                request.setAttribute("listM", list);
+                request.setAttribute("machine3", machine3);
                 target = "AllMachine.jsp";
             }
         }

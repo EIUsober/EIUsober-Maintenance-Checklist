@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +42,10 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
+                        
                 );
                 list.add(ticket);
             }
@@ -65,7 +69,9 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
                 );
                 list.add(ticket);
             }
@@ -126,7 +132,9 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
                 );
             }
             con.close();
@@ -149,7 +157,9 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
                 );
                 list.add(ticket);
             }
@@ -173,7 +183,9 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
                 );
                 list.add(ticket);
             }
@@ -198,7 +210,9 @@ public class TicketDAO {
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        rs.getString(6)
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
                 );
                 list.add(ticket);
             }
@@ -209,6 +223,17 @@ public class TicketDAO {
         return list;
     }
 
+    public void addTicketRemark(String r, String id) {
+        String query = "update ticket set remark = '" + r + "' where ticket_id = '" + id + "'";
+        try {
+            con = DBContext.getConnection();
+            ps = con.prepareStatement(query);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
     public void editTicket(Ticket t) {
         String query = "update ticket set description = '" + t.getDescription() + "' where ticket_id = '" + t.getTicketID() + "'";
         try {
@@ -231,8 +256,8 @@ public class TicketDAO {
         }
     }
 
-    public void updateStatus(String status, String tickID) {
-        String query = "update ticket set status = '" + status + "' where ticket_id = '" + tickID + "'";
+    public void updateStatus(String status, String tickID, LocalDate date) {
+        String query = "update ticket set status = '" + status + "', date_complete = '"+date+"' where ticket_id = '" + tickID + "'";
         try {
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
