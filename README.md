@@ -1,8 +1,8 @@
 Implement Guideline
 
-1. Install Apache Netbeans IDE 17 [https://netbeans.apache.org/front/main/download/nb17/]([url](https://netbeans.apache.org/front/main/download/nb17/))
-2. Install MySQL Workbench 8.0 CE [https://dev.mysql.com/downloads/workbench/]([url](https://dev.mysql.com/downloads/workbench/))
-3. Install Apache Tomcat v9.0.69 [https://tomcat.apache.org/download-90.cgi]([url](https://tomcat.apache.org/download-90.cgi))
+1. Install Apache Netbeans IDE 17 [https://netbeans.apache.org/front/main/download/nb17/](https://netbeans.apache.org/front/main/download/nb17/)
+2. Install MySQL Workbench 8.0 CE [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/workbench/)
+3. Install Apache Tomcat v9.0.69 [https://tomcat.apache.org/download-90.cgi](https://tomcat.apache.org/download-90.cgi)
    Extract the downloaded files to a location of your choice (e.g., C:\).
 4. Open NetBeans.
   Go to the Services tab.
@@ -17,12 +17,12 @@ Implement Guideline
   View the logs in the Console tab.
   Open your web browser (e.g., Chrome) and visit localhost:8080 (the default port for Tomcat). You should see the Tomcat welcome page.
 6. Download the source code in Github.
-7. Download library for MySQL [https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing]([url](https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing)).
+7. Download library for MySQL [https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing](https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing).
   Browse to locate the jar file (e.g., C:\mysql-connector)
 8. Import project in Netbeans
 9. Right click "Libraries" choose "Add JAR/Folder" then choose the file you are browsed on step 7.
    Right click "Libraries" one more time, choose "Add Library" then find and select "JSTL 1.2.1"
-10. Download database data [https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing]([url](https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing)). Extract all tables to MySQL workbench
+10. Download database data [https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing](https://drive.google.com/drive/folders/1eBZ9Qje1Pk8HuA3oTJmGg6WcMH_p22Dm?usp=sharing). Extract all tables to MySQL workbench
 11. Run project
 
-Documentation: [https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing]([url](https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing)https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing) 
+Documentation: [https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing](https://docs.google.com/document/d/1rC-IH61aLLHFXwplJB7C7hEE7_GeTVcAT8g-P9i1CRI/edit?usp=sharing)
