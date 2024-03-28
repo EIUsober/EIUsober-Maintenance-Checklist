@@ -71,12 +71,13 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         </button>
                                         <c:if test="${account.getIsAdmin() == 1}">
+                                            <c:if test="${l.getMaintenance() == null}">
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=I0001" onclick="updateSuccess()">I0001</a>
                                                 <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=I0002" onclick="updateSuccess()">I0002</a>
                                                 <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=I0003" onclick="updateSuccess()">I0003</a>                                            
                                                 <!-- Add more options as needed -->
-                                            </div></c:if>
+                                            </div></c:if></c:if>
                                         <c:if test="${account.getIsAdmin() != 1 && l.getMaintenance() == null}">
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="ManageControl?mode=updateExecute&id=${l.getTicketID()}&staffID=${account.getAccountID()}" onclick="updateSuccess()">Claim Task</a>
