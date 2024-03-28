@@ -92,7 +92,7 @@ public class ManageControl extends HttpServlet {
                 target = "ViewTicket.jsp";
             }
             case "updateStatus" -> {
-                String tickid = request.getParameter("ticketID");
+                String tickid = request.getParameter("id");
                 String status = request.getParameter("status");
                 ticketDAO.updateStatus(status, tickid, localdate);
                 target = "Implementor.jsp";
