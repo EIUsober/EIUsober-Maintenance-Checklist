@@ -18,7 +18,7 @@ Implement Guideline
   View the logs in the Console tab.
   Open your web browser (e.g., Chrome) and visit localhost:8080 (the default port for Tomcat). You should see the Tomcat welcome page.
 7. Download the source code in Github.
-8. Download library for MySQL [https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing](https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing).
+8. Download library/JAR file (database connector) for MySQL [https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing](https://drive.google.com/file/d/17Wh6E0cQzG7EqgIOm2ZqsaDjv6OJsLn6/view?usp=sharing).
   Browse to locate the jar file (e.g., C:\mysql-connector)
 9. Import project in Netbeans
 10. Right click "Libraries" choose "Add JAR/Folder" then choose the file you are browsed on step 7.
