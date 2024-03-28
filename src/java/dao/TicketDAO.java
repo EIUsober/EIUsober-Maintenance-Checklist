@@ -259,6 +259,7 @@ public class TicketDAO {
     public void updateStatus(String status, String tickID, LocalDate date) {
         String query = "update ticket set status = '" + status + "', date_complete = '"+date+"' where ticket_id = '" + tickID + "'";
         try {
+            System.out.println(query);
             con = DBContext.getConnection();
             ps = con.prepareStatement(query);
             ps.executeUpdate();

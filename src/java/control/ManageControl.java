@@ -92,7 +92,7 @@ public class ManageControl extends HttpServlet {
                 target = "ViewTicket.jsp";
             }
             case "updateStatus" -> {
-                String tickid = request.getParameter("ticketID");
+                String tickid = request.getParameter("id");
                 String status = request.getParameter("status");
                 ticketDAO.updateStatus(status, tickid, localdate);
                 target = "Implementor.jsp";
@@ -218,7 +218,7 @@ public class ManageControl extends HttpServlet {
                 String remark = request.getParameter("remark");
                 String id = request.getParameter("ticketID");
                 ticketDAO.addTicketRemark(remark, id);
-                
+
                 target = "Implementor.jsp";
             }
             case "editingTicket" -> {
@@ -363,7 +363,9 @@ public class ManageControl extends HttpServlet {
             case "ViewAssetChecklist" -> {
                 String text = request.getParameter("assetNo");
                 Machine machine3 = machineDAO.getMachineByAssetNo(text);
+                CategoryChecklist machine1 = machineDAO.getChecklistByCategory(machine3.getCategory());
                 request.setAttribute("machine3", machine3);
+                request.setAttribute("machine1", machine1);
 
                 target = "AssetChecklist.jsp";
             }

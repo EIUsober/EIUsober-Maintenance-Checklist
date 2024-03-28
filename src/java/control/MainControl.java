@@ -54,10 +54,12 @@ public class MainControl extends HttpServlet {
                 CategoryChecklist machine1 = machineDAO.getChecklistByCategory(machine.getCategory());
                 request.setAttribute("machine", machine);
                 request.setAttribute("categoryChecklist", machine1);
-                listDAO.insertSchedule3(machine.getName(), machine.getAssetNo(), date, account.getAccountID(), machine1.getChecklist_1(), machine1.getChecklist_2(),
-                        machine1.getChecklist_3(), machine1.getChecklist_4(), machine1.getChecklist_5(), machine1.getChecklist_6(),
-                        machine1.getChecklist_7(), machine1.getRemark_1(), machine1.getRemark_2(), machine1.getRemark_3(), machine1.getRemark_4(),
-                        machine1.getRemark_5(), machine1.getRemark_6(), machine1.getRemark_7());
+                if (account != null) {
+                    listDAO.insertSchedule3(machine.getName(), machine.getAssetNo(), date, account.getAccountID(), machine1.getChecklist_1(), machine1.getChecklist_2(),
+                            machine1.getChecklist_3(), machine1.getChecklist_4(), machine1.getChecklist_5(), machine1.getChecklist_6(),
+                            machine1.getChecklist_7(), machine1.getRemark_1(), machine1.getRemark_2(), machine1.getRemark_3(), machine1.getRemark_4(),
+                            machine1.getRemark_5(), machine1.getRemark_6(), machine1.getRemark_7());
+                }
             }
             case "recentHistory" -> {
                 ArrayList<History> listR = listDAO.getRecentHistory();

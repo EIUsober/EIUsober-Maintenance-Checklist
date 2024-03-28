@@ -40,7 +40,6 @@
                             <th>Date Complete</th>
                             <th>Status</th>
                             <th>Description</th>
-                            <th>Remark</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,9 +62,6 @@
                                     </div>
                                 </td>
                                 <td>${l.getDescription()}</td>
-                                <td>
-                                    <a href="#addRemark" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>    
