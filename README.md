@@ -4,7 +4,7 @@ Implement Guideline
 2. Install MySQL Workbench 8.0 CE [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/workbench/)
 3. Install Apache Tomcat v9.0.69 [https://tomcat.apache.org/download-90.cgi](https://tomcat.apache.org/download-90.cgi)
    Extract the downloaded files to a location of your choice (e.g., C:\).
-4. Install JDK 21 [link](https://drive.google.com/drive/folders/1ow05jdqS44_hJSd2tHYLK-q_mFW9ygfy?usp=drive_link)
+4. Install JDK 21 [(https://drive.google.com/drive/folders/1ow05jdqS44_hJSd2tHYLK-q_mFW9ygfy?usp=drive_link)](https://drive.google.com/drive/folders/1ow05jdqS44_hJSd2tHYLK-q_mFW9ygfy?usp=sharing)
 5. Open NetBeans.
   Go to the Services tab.
   Right-click on Servers and select Add Server.
