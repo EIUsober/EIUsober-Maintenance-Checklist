@@ -1,4 +1,4 @@
-Implement Guideline
+Implementation Guideline
 
 1. Install Apache Netbeans IDE 17 [https://netbeans.apache.org/front/main/download/nb17/](https://netbeans.apache.org/front/main/download/nb17/)
 2. Install MySQL Workbench 8.0 CE [https://dev.mysql.com/downloads/workbench/](https://dev.mysql.com/downloads/windows/installer/8.0.html)
